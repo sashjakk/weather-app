@@ -3,6 +3,7 @@ package sashjakk.weather.app.ui
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -52,6 +53,10 @@ class MainActivity : AppCompatActivity() {
         windSpeed.text = "${item.windSpeed} m/s"
         humidity.text = "${item.humidity} %"
         degrees.text = "${item.degrees} C"
+
+        Glide.with(this)
+            .load("https://openweathermap.org/img/wn/10d@2x.png")
+            .into(weatherIcon)
     }
 }
 
