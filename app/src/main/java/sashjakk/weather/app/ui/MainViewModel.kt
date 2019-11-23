@@ -8,7 +8,8 @@ data class WeatherViewData(
     val date: String,
     val degrees: Float,
     val windSpeed: Float,
-    val humidity: Float
+    val humidity: Float,
+    val iconUrl: String
 )
 
 class MainViewModel(
@@ -18,12 +19,19 @@ class MainViewModel(
     suspend fun getWeatherData(latitude: Double, longitude: Double): WeatherViewData {
         val response = apiClient.getWeatherData(latitude, longitude)
 
+        val icon = response.weatherData
+            .first()
+            .icon
+
+        val iconUrl = apiClient.getIconUrl(icon)
+
         return WeatherViewData(
             city = response.cityName,
             date = response.date.toString(),
             degrees = response.mainData.degrees,
             windSpeed = response.windData.speed,
-            humidity = response.mainData.humidity
+            humidity = response.mainData.humidity,
+            iconUrl = iconUrl
         )
     }
 }

@@ -6,12 +6,13 @@ import io.ktor.client.request.get
 
 class KtorOpenWeatherClient(
     baseUrl: String,
+    private val iconUrl: String,
     private val httpClient: HttpClient
 ) : OpenWeatherClient {
 
     private val urlBuilder = Uri.parse(baseUrl)
 
-    override suspend fun getWeatherData(latitude: Double, longitude: Double): WeatherData {
+    override suspend fun getWeatherData(latitude: Double, longitude: Double): OpenWeatherResponse {
         val url = urlBuilder.buildUpon()
             .appendPath("weather")
             .appendQueryParameter("lat", latitude.toString())
@@ -19,5 +20,14 @@ class KtorOpenWeatherClient(
             .toString()
 
         return httpClient.get(url)
+    }
+
+    override fun getIconUrl(icon: String): String {
+        return Uri.parse(iconUrl)
+            .buildUpon()
+            .appendPath("img")
+            .appendPath("wn")
+            .appendPath("$icon@2x.png")
+            .toString()
     }
 }

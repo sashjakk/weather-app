@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         degrees.text = "${data.degrees} C"
 
         Glide.with(this)
-            .load("https://openweathermap.org/img/wn/10d@2x.png")
+            .load(data.iconUrl)
             .into(weatherIcon)
     }
 }

@@ -17,7 +17,11 @@ val uiModule = module {
 
 val apiModule = module {
     single<OpenWeatherClient> {
-        KtorOpenWeatherClient(getProperty("OPENAPI_BASE_URL"), get())
+        KtorOpenWeatherClient(
+            getProperty("OPENAPI_BASE_URL"),
+            getProperty("OPENAPI_ICON_URL"),
+            get()
+        )
     }
 }
 
