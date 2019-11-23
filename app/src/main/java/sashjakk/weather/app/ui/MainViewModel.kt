@@ -2,6 +2,7 @@ package sashjakk.weather.app.ui
 
 import androidx.lifecycle.ViewModel
 import sashjakk.weather.app.api.OpenWeatherClient
+import java.text.SimpleDateFormat
 
 data class WeatherViewData(
     val city: String,
@@ -25,9 +26,11 @@ class MainViewModel(
 
         val iconUrl = apiClient.getIconUrl(icon)
 
+        val dateFormatter = SimpleDateFormat("EEEE, dd MMM yyyy")
+
         return WeatherViewData(
             city = response.cityName,
-            date = response.date.toString(),
+            date = dateFormatter.format(response.date * 1000L),
             degrees = response.mainData.degrees,
             windSpeed = response.windData.speed,
             humidity = response.mainData.humidity,
