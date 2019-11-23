@@ -1,12 +1,25 @@
-package sashjakk.weather.app.modules
+package sashjakk.weather.app
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.features.json.GsonSerializer
 import io.ktor.client.features.json.JsonFeature
-import okhttp3.Interceptor
+import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import sashjakk.weather.app.BuildConfig
+import sashjakk.weather.app.api.KtorOpenWeatherClient
+import sashjakk.weather.app.api.OpenWeatherClient
+import sashjakk.weather.app.tools.queryInjector
+import sashjakk.weather.app.ui.MainViewModel
+
+val uiModule = module {
+    viewModel { MainViewModel(get()) }
+}
+
+val apiModule = module {
+    single<OpenWeatherClient> {
+        KtorOpenWeatherClient(getProperty("OPENAPI_BASE_URL"), get())
+    }
+}
 
 val httpModule = module {
     single {
@@ -23,18 +36,3 @@ val httpModule = module {
     }
 }
 
-private fun queryInjector(param: Pair<String, String>) = Interceptor {
-    val (key, value) = param
-
-    val injector = it.request().url()
-        .newBuilder()
-        .addQueryParameter(key, value)
-        .build()
-
-    val request = it.request()
-        .newBuilder()
-        .url(injector)
-        .build()
-
-    it.proceed(request)
-}
