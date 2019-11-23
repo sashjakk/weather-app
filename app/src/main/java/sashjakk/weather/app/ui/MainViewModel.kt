@@ -1,7 +1,6 @@
 package sashjakk.weather.app.ui
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import sashjakk.weather.app.api.OpenWeatherClient
 
 data class WeatherViewData(
@@ -16,17 +15,15 @@ class MainViewModel(
     private val apiClient: OpenWeatherClient
 ) : ViewModel() {
 
-    val weatherData = liveData {
-        val response = apiClient.getWeatherData("Riga")
+    suspend fun getWeatherData(latitude: Double, longitude: Double): WeatherViewData {
+        val response = apiClient.getWeatherData(latitude, longitude)
 
-        val instance = WeatherViewData(
+        return WeatherViewData(
             city = response.cityName,
             date = response.date.toString(),
             degrees = response.mainData.degrees,
             windSpeed = response.windData.speed,
             humidity = response.mainData.humidity
         )
-
-        emit(instance)
     }
 }

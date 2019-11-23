@@ -11,10 +11,11 @@ class KtorOpenWeatherClient(
 
     private val urlBuilder = Uri.parse(baseUrl)
 
-    override suspend fun getWeatherData(city: String): WeatherData {
+    override suspend fun getWeatherData(latitude: Double, longitude: Double): WeatherData {
         val url = urlBuilder.buildUpon()
             .appendPath("weather")
-            .appendQueryParameter("q", city)
+            .appendQueryParameter("lat", latitude.toString())
+            .appendQueryParameter("lon", longitude.toString())
             .toString()
 
         return httpClient.get(url)

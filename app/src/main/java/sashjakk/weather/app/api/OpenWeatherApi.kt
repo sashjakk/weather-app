@@ -19,5 +19,5 @@ data class WindData(
 )
 
 interface OpenWeatherClient {
-    suspend fun getWeatherData(city: String): WeatherData
+    suspend fun getWeatherData(latitude: Double, longitude: Double): WeatherData
 }
