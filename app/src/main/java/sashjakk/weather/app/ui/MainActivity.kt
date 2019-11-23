@@ -1,7 +1,6 @@
 package sashjakk.weather.app.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
@@ -10,10 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import sashjakk.weather.app.R
-import sashjakk.weather.app.api.OpenWeatherClient
 import kotlin.coroutines.CoroutineContext
 
 class MainActivity : AppCompatActivity() {
@@ -22,20 +19,13 @@ class MainActivity : AppCompatActivity() {
         override val coroutineContext: CoroutineContext = Job() + Dispatchers.Main
     }
 
-    private val apiClient: OpenWeatherClient by inject()
-
-    private val viewModel = MainViewModel()
+    private val viewModel by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        scope.launch {
-            val data = apiClient.getWeatherData("New York")
-            Log.d("HEYO", data.toString())
-        }
-
-        viewModel.weatherItem
+        viewModel.weatherData
             .onEach { setupViewData(it) }
             .launchIn(scope)
     }

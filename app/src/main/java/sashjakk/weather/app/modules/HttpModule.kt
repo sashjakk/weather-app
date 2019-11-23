@@ -8,7 +8,7 @@ import okhttp3.Interceptor
 import org.koin.dsl.module
 import sashjakk.weather.app.BuildConfig
 
-var httpModule = module {
+val httpModule = module {
     single {
         HttpClient(OkHttp) {
             install(JsonFeature) {

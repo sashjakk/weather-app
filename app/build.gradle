@@ -61,6 +61,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 
     implementation 'org.koin:koin-android:2.0.1'
+    implementation 'org.koin:koin-android-viewmodel:2.0.1'
 
     testImplementation 'junit:junit:4.12'
 

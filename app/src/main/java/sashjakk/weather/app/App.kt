@@ -4,6 +4,7 @@ import android.app.Application
 import org.koin.core.context.startKoin
 import sashjakk.weather.app.modules.apiModule
 import sashjakk.weather.app.modules.httpModule
+import sashjakk.weather.app.modules.uiModule
 
 class App : Application() {
 
@@ -12,7 +13,7 @@ class App : Application() {
 
         startKoin {
             modules(
-                listOf(httpModule, apiModule)
+                listOf(httpModule, apiModule, uiModule)
             )
 
             properties(
