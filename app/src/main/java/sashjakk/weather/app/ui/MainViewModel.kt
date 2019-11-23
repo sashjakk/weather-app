@@ -1,8 +1,7 @@
 package sashjakk.weather.app.ui
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import androidx.lifecycle.liveData
 import sashjakk.weather.app.api.OpenWeatherClient
 
 data class WeatherViewData(
@@ -17,7 +16,7 @@ class MainViewModel(
     private val apiClient: OpenWeatherClient
 ) : ViewModel() {
 
-    val weatherData: Flow<WeatherViewData> = flow {
+    val weatherData = liveData {
         val response = apiClient.getWeatherData("Riga")
 
         val instance = WeatherViewData(

@@ -4,20 +4,16 @@ import android.Manifest
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.observe
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import sashjakk.weather.app.R
-import kotlin.coroutines.CoroutineContext
 
 class MainActivity : AppCompatActivity() {
-
-    private val scope: CoroutineScope = object : CoroutineScope {
-        override val coroutineContext: CoroutineContext = Job() + Dispatchers.Main
-    }
 
     private val viewModel by viewModel<MainViewModel>()
 
@@ -26,10 +22,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         viewModel.weatherData
-            .onEach { setupViewData(it) }
-            .launchIn(scope)
+            .observe(this, ::setupViewData)
 
-        scope.launch {
+        lifecycleScope.launch {
             delay(5000)
 
             val granted = requestPermissionAsync(Manifest.permission.ACCESS_FINE_LOCATION)
