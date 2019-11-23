@@ -5,18 +5,21 @@ import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.features.json.GsonSerializer
 import io.ktor.client.features.json.JsonFeature
 import okhttp3.Interceptor
+import org.koin.dsl.module
 import sashjakk.weather.app.BuildConfig
 
-const val baseUrl = "https://api.openweathermap.org/data/2.5"
+var httpModule = module {
+    single {
+        HttpClient(OkHttp) {
+            install(JsonFeature) {
+                serializer = GsonSerializer()
+            }
 
-val httpClient = HttpClient(OkHttp) {
-    install(JsonFeature) {
-        serializer = GsonSerializer()
-    }
-
-    engine {
-        addInterceptor(queryInjector("APPID" to BuildConfig.OPENWEATHER_API_KEY))
-        addInterceptor(queryInjector("units" to "metric"))
+            engine {
+                addInterceptor(queryInjector("APPID" to BuildConfig.OPENWEATHER_API_KEY))
+                addInterceptor(queryInjector("units" to "metric"))
+            }
+        }
     }
 }
 

@@ -11,11 +11,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import sashjakk.weather.app.R
-import sashjakk.weather.app.api.KtorOpenWeatherClient
 import sashjakk.weather.app.api.OpenWeatherClient
-import sashjakk.weather.app.modules.baseUrl
-import sashjakk.weather.app.modules.httpClient
 import kotlin.coroutines.CoroutineContext
 
 class MainActivity : AppCompatActivity() {
@@ -24,12 +22,7 @@ class MainActivity : AppCompatActivity() {
         override val coroutineContext: CoroutineContext = Job() + Dispatchers.Main
     }
 
-    private val apiClient: OpenWeatherClient by lazy {
-        KtorOpenWeatherClient(
-            baseUrl,
-            httpClient
-        )
-    }
+    private val apiClient: OpenWeatherClient by inject()
 
     private val viewModel = MainViewModel()
 
