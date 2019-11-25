@@ -1,0 +1,78 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:5560563337940870034",
+      "lastPropertyId": "9:2375183016117734800",
+      "name": "WeatherEntity",
+      "properties": [
+        {
+          "id": "1:3045322075538413309",
+          "name": "city",
+          "type": 9
+        },
+        {
+          "id": "2:3406555845151875645",
+          "name": "date",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "3:6129184715677308992",
+          "name": "degrees",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "4:1125408770171806246",
+          "name": "windSpeed",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "5:5412981056892862618",
+          "name": "humidity",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "6:8242346027070537",
+          "name": "iconUrl",
+          "type": 9
+        },
+        {
+          "id": "7:7545203192416278793",
+          "name": "latitude",
+          "type": 8,
+          "flags": 4
+        },
+        {
+          "id": "8:1779682869963191657",
+          "name": "longitude",
+          "type": 8,
+          "flags": 4
+        },
+        {
+          "id": "9:2375183016117734800",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:5560563337940870034",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

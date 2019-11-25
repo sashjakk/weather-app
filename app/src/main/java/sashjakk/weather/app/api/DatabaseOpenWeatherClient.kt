@@ -1,26 +1,28 @@
 package sashjakk.weather.app.api
 
 import sashjakk.weather.app.db.DatabaseClient
+import sashjakk.weather.app.db.WeatherEntity
 import sashjakk.weather.app.tools.Failure
 import sashjakk.weather.app.tools.Result
 import sashjakk.weather.app.tools.Success
-import kotlin.math.abs
 
 class DatabaseOpenWeatherClient(
-    private val databaseClient: DatabaseClient<OpenWeatherResponse>
+    private val databaseClient: DatabaseClient<WeatherEntity>
 ) : OpenWeatherClient {
 
     override suspend fun getWeatherData(
         latitude: Double,
         longitude: Double
     ): Result<OpenWeatherResponse> {
-        val result = databaseClient.getAll()
-            .find {
-                val (lat, lon) = it.coordinates
-                abs(lat - latitude) > 0.001 && abs(lon - longitude) > 0.001
-            }
+        val criteria = WeatherEntity(
+            latitude = latitude,
+            longitude = longitude
+        )
 
-        return result?.let { Success(it) } ?: Failure("Not found in database")
+        val entity = databaseClient.getMatchingBy(criteria)
+            ?: return Failure("Not found in database")
+
+        return Success(entity.toOpenWeatherResponse())
     }
 
     override fun getIconUrl(icon: String): String {

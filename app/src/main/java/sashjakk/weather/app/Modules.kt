@@ -1,5 +1,6 @@
 package sashjakk.weather.app
 
+import android.content.Context
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.features.json.GsonSerializer
@@ -8,7 +9,9 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import sashjakk.weather.app.api.*
 import sashjakk.weather.app.db.DatabaseClient
-import sashjakk.weather.app.db.InMemoryDatabaseClient
+import sashjakk.weather.app.db.MyObjectBox
+import sashjakk.weather.app.db.ObjectBoxDatabaseClient
+import sashjakk.weather.app.db.WeatherEntity
 import sashjakk.weather.app.tools.queryInjector
 import sashjakk.weather.app.ui.MainViewModel
 
@@ -17,7 +20,13 @@ val uiModule = module {
 }
 
 val dbModule = module {
-    single<DatabaseClient<OpenWeatherResponse>> { InMemoryDatabaseClient() }
+    single {
+        MyObjectBox.builder()
+            .androidContext(get() as Context)
+            .build()
+    }
+
+    single<DatabaseClient<WeatherEntity>> { ObjectBoxDatabaseClient(get()) }
 }
 
 val apiModule = module {

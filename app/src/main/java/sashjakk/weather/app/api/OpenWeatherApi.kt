@@ -1,6 +1,7 @@
 package sashjakk.weather.app.api
 
 import com.google.gson.annotations.SerializedName
+import sashjakk.weather.app.db.WeatherEntity
 import sashjakk.weather.app.tools.Result
 
 data class OpenWeatherResponse(
@@ -10,6 +11,15 @@ data class OpenWeatherResponse(
     @SerializedName("wind") val windData: WindData,
     @SerializedName("weather") val weatherData: List<WeatherData>,
     @SerializedName("dt") val date: Long
+)
+
+fun WeatherEntity.toOpenWeatherResponse() = OpenWeatherResponse(
+    cityName = city,
+    coordinates = Coordinates(latitude, longitude),
+    mainData = MainData(degrees, humidity),
+    windData = WindData(windSpeed),
+    weatherData = listOf(WeatherData("")),
+    date = date
 )
 
 data class MainData(

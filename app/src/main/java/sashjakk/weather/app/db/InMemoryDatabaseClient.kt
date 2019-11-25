@@ -1,20 +1,18 @@
 package sashjakk.weather.app.db
 
-import sashjakk.weather.app.api.OpenWeatherResponse
-
 class InMemoryDatabaseClient(
-    private val cache: MutableList<OpenWeatherResponse> = mutableListOf()
-) : DatabaseClient<OpenWeatherResponse> {
+    private val cache: MutableList<WeatherEntity> = mutableListOf()
+) : DatabaseClient<WeatherEntity> {
 
-    override suspend fun save(item: OpenWeatherResponse): OpenWeatherResponse =
-        getMatchingBy(item.cityName) ?: run {
+    override suspend fun save(item: WeatherEntity): WeatherEntity =
+        getMatchingBy(item) ?: run {
             cache.add(item)
             item
         }
 
-    override suspend fun getMatchingBy(query: String): OpenWeatherResponse? =
-        cache.find { it.cityName == query }
+    override suspend fun getMatchingBy(item: WeatherEntity): WeatherEntity? =
+        cache.find { it.city == item.city }
 
 
-    override suspend fun getAll(): List<OpenWeatherResponse> = cache.toList()
+    override suspend fun getAll(): List<WeatherEntity> = cache.toList()
 }
