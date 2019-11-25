@@ -34,5 +34,7 @@ fun LocationManager.location(
         listener
     )
 
+    offer(getLastKnownLocation(provider))
+
     awaitClose { removeUpdates(listener) }
 }
