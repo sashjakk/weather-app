@@ -5,6 +5,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.features.json.GsonSerializer
 import io.ktor.client.features.json.JsonFeature
+import io.objectbox.android.AndroidObjectBrowser
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import sashjakk.weather.app.api.*
@@ -21,9 +22,15 @@ val uiModule = module {
 
 val dbModule = module {
     single {
-        MyObjectBox.builder()
+        val store = MyObjectBox.builder()
             .androidContext(get() as Context)
             .build()
+
+        if (BuildConfig.DEBUG) {
+            AndroidObjectBrowser(store).start(get() as Context)
+        }
+
+        store
     }
 
     single<DatabaseClient<WeatherEntity>> { ObjectBoxDatabaseClient(get()) }
