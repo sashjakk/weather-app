@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class OpenWeatherResponse(
     @SerializedName("name") val cityName: String,
+    @SerializedName("coord") val coordinates: Coordinates,
     @SerializedName("main") val mainData: MainData,
     @SerializedName("wind") val windData: WindData,
     @SerializedName("weather") val weatherData: List<WeatherData>,
@@ -21,6 +22,11 @@ data class WindData(
 
 data class WeatherData(
     val icon: String
+)
+
+data class Coordinates(
+    @SerializedName("lat") val latitude: Double,
+    @SerializedName("lon") val longitude: Double
 )
 
 interface OpenWeatherClient {
