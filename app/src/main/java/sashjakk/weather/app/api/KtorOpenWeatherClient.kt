@@ -3,6 +3,9 @@ package sashjakk.weather.app.api
 import android.net.Uri
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
+import sashjakk.weather.app.tools.Failure
+import sashjakk.weather.app.tools.Result
+import sashjakk.weather.app.tools.Success
 
 class KtorOpenWeatherClient(
     baseUrl: String,
@@ -24,9 +27,9 @@ class KtorOpenWeatherClient(
 
         return try {
             val response = httpClient.get<OpenWeatherResponse>(url)
-            Result.success(response)
+            Success(response)
         } catch (e: Throwable) {
-            Result.failure(e)
+            Failure(e)
         }
     }
 

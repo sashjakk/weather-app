@@ -1,9 +1,11 @@
 package sashjakk.weather.app.api
 
 import sashjakk.weather.app.db.DatabaseClient
+import sashjakk.weather.app.tools.Result
+import sashjakk.weather.app.tools.Success
 
 class CachedWeatherClient(
-    private val DatabaseClient: DatabaseClient<OpenWeatherResponse>,
+    private val database: DatabaseClient<OpenWeatherResponse>,
     private val delegate: OpenWeatherClient
 ) : OpenWeatherClient {
 
@@ -13,8 +15,8 @@ class CachedWeatherClient(
     ): Result<OpenWeatherResponse> {
         val result = delegate.getWeatherData(latitude, longitude)
 
-        if (result.isSuccess) {
-            DatabaseClient.save(result.result)
+        if (result is Success) {
+            database.save(result.value)
         }
 
         return result

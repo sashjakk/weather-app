@@ -9,12 +9,13 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import sashjakk.weather.app.R
+import sashjakk.weather.app.tools.Failure
+import sashjakk.weather.app.tools.Success
 import sashjakk.weather.app.tools.location
 import sashjakk.weather.app.tools.toast
 
@@ -45,12 +46,10 @@ class MainActivity : AppCompatActivity() {
 
         locationManager.location()
             .map { viewModel.getWeatherData(it.latitude, it.longitude) }
-            .catch { toast(it.message ?: "Location is not available") }
             .collect {
-                if (it.isSuccess) {
-                    bindWeatherData(it.result)
-                } else {
-                    toast(it.error.message ?: "Oups")
+                when (it) {
+                    is Success -> bindWeatherData(it.value)
+                    is Failure -> toast(it.error.message ?: "Unknown error")
                 }
             }
     }

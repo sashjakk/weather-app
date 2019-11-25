@@ -2,8 +2,12 @@ package sashjakk.weather.app.ui
 
 import androidx.lifecycle.ViewModel
 import sashjakk.weather.app.api.OpenWeatherClient
-import sashjakk.weather.app.api.Result
+import sashjakk.weather.app.api.OpenWeatherResponse
+import sashjakk.weather.app.tools.Failure
+import sashjakk.weather.app.tools.Result
+import sashjakk.weather.app.tools.Success
 import java.text.SimpleDateFormat
+import java.util.*
 
 data class WeatherViewData(
     val city: String,
@@ -24,30 +28,22 @@ class MainViewModel(
     ): Result<WeatherViewData> {
         val result = apiClient.getWeatherData(latitude, longitude)
 
-        if (result.isFailure) {
-            return Result.failure(result.error)
+        return when (result) {
+            is Success -> Success(mapToWeatherViewData(result.value))
+            is Failure -> Failure(result.error)
         }
-
-        val response = result.result
-
-        val icon = response
-            .weatherData
-            .first()
-            .icon
-
-        val iconUrl = apiClient.getIconUrl(icon)
-
-        val dateFormatter = SimpleDateFormat("EEEE, dd MMM yyyy")
-
-        return Result.success(
-            WeatherViewData(
-                city = response.cityName,
-                date = dateFormatter.format(response.date * 1000L),
-                degrees = response.mainData.degrees,
-                windSpeed = response.windData.speed,
-                humidity = response.mainData.humidity,
-                iconUrl = iconUrl
-            )
-        )
     }
+}
+
+fun mapToWeatherViewData(response: OpenWeatherResponse): WeatherViewData {
+    val dateFormatter = SimpleDateFormat("EEEE, dd MMM yyyy", Locale.getDefault())
+
+    return WeatherViewData(
+        city = response.cityName,
+        date = dateFormatter.format(response.date * 1000L),
+        degrees = response.mainData.degrees,
+        windSpeed = response.windData.speed,
+        humidity = response.mainData.humidity,
+        iconUrl = ""
+    )
 }
