@@ -29,8 +29,28 @@ data class Coordinates(
     @SerializedName("lon") val longitude: Double
 )
 
+class Result<T> private constructor(
+    private val _result: T? = null,
+    private val _error: Throwable? = null
+) {
+    val isSuccess: Boolean get() = _result != null
+
+    val isFailure: Boolean get() = _result == null
+
+    val result: T get() = if (isSuccess) _result!! else throw IllegalStateException()
+
+    val error: Throwable get() = if (isFailure) _error!! else throw IllegalStateException()
+
+    companion object {
+        fun <T> success(result: T) = Result(result, null)
+
+        fun <T> failure(error: Throwable) = Result<T>(null, error)
+        fun <T> failure(message: String) = Result<T>(null, Error(message))
+    }
+}
+
 interface OpenWeatherClient {
-    suspend fun getWeatherData(latitude: Double, longitude: Double): OpenWeatherResponse
+    suspend fun getWeatherData(latitude: Double, longitude: Double): Result<OpenWeatherResponse>
 
     fun getIconUrl(icon: String): String
 }

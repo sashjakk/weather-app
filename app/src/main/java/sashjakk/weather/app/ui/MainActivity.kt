@@ -46,7 +46,13 @@ class MainActivity : AppCompatActivity() {
         locationManager.location()
             .map { viewModel.getWeatherData(it.latitude, it.longitude) }
             .catch { toast(it.message ?: "Location is not available") }
-            .collect { bindWeatherData(it) }
+            .collect {
+                if (it.isSuccess) {
+                    bindWeatherData(it.result)
+                } else {
+                    toast(it.error.message ?: "Oups")
+                }
+            }
     }
 
     private fun bindWeatherData(data: WeatherViewData) {

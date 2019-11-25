@@ -12,14 +12,22 @@ class KtorOpenWeatherClient(
 
     private val urlBuilder = Uri.parse(baseUrl)
 
-    override suspend fun getWeatherData(latitude: Double, longitude: Double): OpenWeatherResponse {
+    override suspend fun getWeatherData(
+        latitude: Double,
+        longitude: Double
+    ): Result<OpenWeatherResponse> {
         val url = urlBuilder.buildUpon()
             .appendPath("weather")
             .appendQueryParameter("lat", latitude.toString())
             .appendQueryParameter("lon", longitude.toString())
             .toString()
 
-        return httpClient.get(url)
+        return try {
+            val response = httpClient.get<OpenWeatherResponse>(url)
+            Result.success(response)
+        } catch (e: Throwable) {
+            Result.failure(e)
+        }
     }
 
     override fun getIconUrl(icon: String): String {
