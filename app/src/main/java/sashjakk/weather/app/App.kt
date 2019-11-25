@@ -10,7 +10,7 @@ class App : Application() {
 
         startKoin {
             modules(
-                listOf(httpModule, apiModule, uiModule)
+                listOf(httpModule, dbModule, apiModule, uiModule)
             )
 
             properties(
