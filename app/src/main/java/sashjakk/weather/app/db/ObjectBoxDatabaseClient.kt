@@ -4,7 +4,7 @@ import io.objectbox.BoxStore
 import io.objectbox.kotlin.boxFor
 import io.objectbox.kotlin.query
 
-private const val COORDINATES_PRECISION = 0.001
+private const val COORDINATES_PRECISION = 0.01
 
 class ObjectBoxDatabaseClient(
     boxStore: BoxStore
@@ -25,7 +25,7 @@ class ObjectBoxDatabaseClient(
             )
 
             between(
-                WeatherEntity_.latitude,
+                WeatherEntity_.longitude,
                 item.longitude - COORDINATES_PRECISION,
                 item.longitude + COORDINATES_PRECISION
             )
