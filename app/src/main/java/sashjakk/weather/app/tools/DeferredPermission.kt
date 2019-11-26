@@ -1,12 +1,13 @@
-package sashjakk.weather.app.ui
+package sashjakk.weather.app.tools
 
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
 
@@ -69,13 +70,14 @@ class PermissionFragment : Fragment() {
  *
  * https://geoffreymetais.github.io/code/runtime-permissions/#deferred-behavior
  * */
-fun FragmentActivity.requestPermissionAsync(
+fun FragmentManager.requestPermissionAsync(
+    context: Context,
     permission: String
 ): Deferred<Boolean> {
     val grant = CompletableDeferred<Boolean>()
 
     val permissionState = ContextCompat
-        .checkSelfPermission(this, permission)
+        .checkSelfPermission(context, permission)
 
     if (permissionState == PackageManager.PERMISSION_GRANTED) {
         grant.complete(true)
@@ -87,8 +89,7 @@ fun FragmentActivity.requestPermissionAsync(
         deferredGrant = grant
     }
 
-    supportFragmentManager
-        .beginTransaction()
+    beginTransaction()
         .add(fragment, PermissionFragment::class.java.simpleName)
         .commit()
 

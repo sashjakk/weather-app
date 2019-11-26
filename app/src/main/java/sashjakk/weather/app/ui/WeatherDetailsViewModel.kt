@@ -37,7 +37,7 @@ fun OpenWeatherResponse.toWeatherViewData(): WeatherViewData {
     )
 }
 
-class MainViewModel(
+class WeatherDetailsViewModel(
     private val apiClient: OpenWeatherClient,
     private val locationProvider: LocationProvider
 ) : ViewModel() {
