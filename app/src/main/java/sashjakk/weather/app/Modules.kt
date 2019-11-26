@@ -17,9 +17,11 @@ import sashjakk.weather.app.location.DefaultLocationProvider
 import sashjakk.weather.app.location.LocationProvider
 import sashjakk.weather.app.tools.queryInjector
 import sashjakk.weather.app.ui.WeatherDetailsViewModel
+import sashjakk.weather.app.ui.WeatherListViewModel
 
 val uiModule = module {
     viewModel { WeatherDetailsViewModel(get(), get()) }
+    viewModel { WeatherListViewModel(get()) }
 }
 
 val locationModule = module {

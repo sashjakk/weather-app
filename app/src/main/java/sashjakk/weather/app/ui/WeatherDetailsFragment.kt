@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_weather_details.*
 import kotlinx.coroutines.launch
@@ -29,6 +30,8 @@ class WeatherDetailsFragment : Fragment() {
     ): View? = inflater.inflate(R.layout.fragment_weather_details, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setupToolbar()
+
         lifecycleScope.launch {
             val context = requireContext()
             val granted = parentFragmentManager
@@ -40,6 +43,18 @@ class WeatherDetailsFragment : Fragment() {
             }
 
             handleLocationUpdates()
+        }
+    }
+
+    private fun setupToolbar() = with(toolbar) {
+        inflateMenu(R.menu.menu_weather_details)
+
+        setOnMenuItemClickListener {
+            if (it.itemId == R.id.weather_list) {
+                findNavController().navigate(R.id.details_to_list)
+            }
+
+            true
         }
     }
 
