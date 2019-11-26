@@ -13,11 +13,17 @@ import sashjakk.weather.app.db.DatabaseClient
 import sashjakk.weather.app.db.MyObjectBox
 import sashjakk.weather.app.db.ObjectBoxDatabaseClient
 import sashjakk.weather.app.db.WeatherEntity
+import sashjakk.weather.app.location.DefaultLocationProvider
+import sashjakk.weather.app.location.LocationProvider
 import sashjakk.weather.app.tools.queryInjector
 import sashjakk.weather.app.ui.MainViewModel
 
 val uiModule = module {
-    viewModel { MainViewModel(get()) }
+    viewModel { MainViewModel(get(), get()) }
+}
+
+val locationModule = module {
+    single<LocationProvider> { DefaultLocationProvider(get()) }
 }
 
 val dbModule = module {

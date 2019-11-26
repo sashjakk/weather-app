@@ -1,8 +1,14 @@
 package sashjakk.weather.app.ui
 
+import android.location.LocationManager.GPS_PROVIDER
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import sashjakk.weather.app.api.OpenWeatherClient
 import sashjakk.weather.app.api.OpenWeatherResponse
+import sashjakk.weather.app.location.LocationProvider
 import sashjakk.weather.app.tools.Failure
 import sashjakk.weather.app.tools.Result
 import sashjakk.weather.app.tools.Success
@@ -18,32 +24,34 @@ data class WeatherViewData(
     val iconUrl: String
 )
 
-class MainViewModel(
-    private val apiClient: OpenWeatherClient
-) : ViewModel() {
-
-    suspend fun getWeatherData(
-        latitude: Double,
-        longitude: Double
-    ): Result<WeatherViewData> {
-        val result = apiClient.getWeatherData(latitude, longitude)
-
-        return when (result) {
-            is Success -> Success(mapToWeatherViewData(result.value))
-            is Failure -> Failure(result.error)
-        }
-    }
-}
-
-fun mapToWeatherViewData(response: OpenWeatherResponse): WeatherViewData {
+fun OpenWeatherResponse.toWeatherViewData(): WeatherViewData {
     val dateFormatter = SimpleDateFormat("EEEE, dd MMM yyyy", Locale.getDefault())
 
     return WeatherViewData(
-        city = response.cityName,
-        date = dateFormatter.format(response.date * 1000L),
-        degrees = response.mainData.degrees,
-        windSpeed = response.windData.speed,
-        humidity = response.mainData.humidity,
+        city = cityName,
+        date = dateFormatter.format(date * 1000L),
+        degrees = mainData.degrees,
+        windSpeed = windData.speed,
+        humidity = mainData.humidity,
         iconUrl = ""
     )
+}
+
+class MainViewModel(
+    private val apiClient: OpenWeatherClient,
+    private val locationProvider: LocationProvider
+) : ViewModel() {
+
+    val weatherData: LiveData<Result<WeatherViewData>> = liveData {
+        locationProvider
+            .observeLocation(GPS_PROVIDER, 1 * 10000, 1 * 10f)
+            .map { apiClient.getWeatherData(it.latitude, it.longitude) }
+            .map {
+                when (it) {
+                    is Success -> Success(it.value.toWeatherViewData())
+                    is Failure -> Failure<WeatherViewData>(it.error)
+                }
+            }
+            .collect(::emit)
+    }
 }

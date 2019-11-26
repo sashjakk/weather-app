@@ -13,7 +13,7 @@ class App : Application() {
             androidContext(this@App)
 
             modules(
-                listOf(httpModule, dbModule, apiModule, uiModule)
+                listOf(httpModule, dbModule, apiModule, locationModule, uiModule)
             )
 
             properties(
