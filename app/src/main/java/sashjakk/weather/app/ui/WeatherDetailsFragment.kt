@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_weather_details.*
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
+import sashjakk.weather.app.GlideApp
 import sashjakk.weather.app.R
 import sashjakk.weather.app.tools.Failure
 import sashjakk.weather.app.tools.Success
@@ -77,7 +77,7 @@ class WeatherDetailsFragment : Fragment() {
         humidity.text = "${data.humidity} %"
         degrees.text = "${data.degrees} C"
 
-        Glide.with(this)
+        GlideApp.with(this)
             .load(data.iconUrl)
             .into(weatherIcon)
     }

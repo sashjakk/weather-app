@@ -27,18 +27,23 @@ class KtorOpenWeatherClient(
 
         return try {
             val response = httpClient.get<OpenWeatherResponse>(url)
-            Success(response)
+            val withIconUrls = response.weatherData
+                .map(::injectIconUrl)
+
+            Success(response.copy(weatherData = withIconUrls))
         } catch (e: Throwable) {
             Failure(e)
         }
     }
 
-    override fun getIconUrl(icon: String): String {
-        return Uri.parse(iconUrl)
+    private fun injectIconUrl(weatherData: WeatherData): WeatherData {
+        val url = Uri.parse(iconUrl)
             .buildUpon()
             .appendPath("img")
             .appendPath("wn")
-            .appendPath("$icon@2x.png")
+            .appendPath("${weatherData.icon}@2x.png")
             .toString()
+
+        return weatherData.copy(icon = url)
     }
 }

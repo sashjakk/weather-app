@@ -18,7 +18,7 @@ fun WeatherEntity.toOpenWeatherResponse() = OpenWeatherResponse(
     coordinates = Coordinates(latitude, longitude),
     mainData = MainData(degrees, humidity),
     windData = WindData(windSpeed),
-    weatherData = listOf(WeatherData("")),
+    weatherData = listOf(WeatherData(iconUrl)),
     date = date
 )
 
@@ -42,6 +42,4 @@ data class Coordinates(
 
 interface OpenWeatherClient {
     suspend fun getWeatherData(latitude: Double, longitude: Double): Result<OpenWeatherResponse>
-
-    fun getIconUrl(icon: String): String
 }

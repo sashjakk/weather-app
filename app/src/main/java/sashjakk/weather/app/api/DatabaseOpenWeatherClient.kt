@@ -24,8 +24,4 @@ class DatabaseOpenWeatherClient(
 
         return Success(entity.toOpenWeatherResponse())
     }
-
-    override fun getIconUrl(icon: String): String {
-        return ""
-    }
 }

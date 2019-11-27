@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import kotlinx.android.synthetic.main.fragment_weather_list.*
 import kotlinx.android.synthetic.main.weather_list_item.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import sashjakk.weather.app.GlideApp
 import sashjakk.weather.app.R
 import sashjakk.weather.app.db.DatabaseClient
 import sashjakk.weather.app.db.WeatherEntity
@@ -33,9 +34,15 @@ class WeatherListItemHolder(
     private val view: View
 ) : RecyclerView.ViewHolder(view) {
 
-    fun bind(item: WeatherEntity) = with(view) {
-        thumbCity.text = item.city
-        thumbDegrees.text = item.degrees.toString()
+    fun bind(item: WeatherEntity) {
+        with(view) {
+            thumbCity.text = item.city
+            thumbDegrees.text = item.degrees.toString()
+
+            GlideApp.with(view)
+                .load(item.iconUrl)
+                .into(thumbIcon)
+        }
     }
 }
 

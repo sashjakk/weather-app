@@ -23,7 +23,7 @@ fun OpenWeatherResponse.toWeatherEntity() = WeatherEntity(
     degrees = mainData.degrees,
     windSpeed = windData.speed,
     humidity = mainData.humidity,
-    iconUrl = "",
+    iconUrl = weatherData.firstOrNull()?.icon ?: "",
     latitude = coordinates.latitude,
     longitude = coordinates.longitude
 )

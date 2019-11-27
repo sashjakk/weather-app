@@ -1,6 +1,11 @@
 package sashjakk.weather.app
 
 import android.content.Context
+import com.bumptech.glide.GlideBuilder
+import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.module.AppGlideModule
+import com.bumptech.glide.request.RequestOptions
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.features.json.GsonSerializer
@@ -83,3 +88,14 @@ val httpModule = module {
     }
 }
 
+@GlideModule
+class GlideModule : AppGlideModule() {
+    override fun applyOptions(context: Context, builder: GlideBuilder) {
+        super.applyOptions(context, builder)
+
+        val options = RequestOptions()
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
+
+        builder.setDefaultRequestOptions(options)
+    }
+}

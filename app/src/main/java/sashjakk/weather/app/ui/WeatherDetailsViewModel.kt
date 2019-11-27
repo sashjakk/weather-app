@@ -33,7 +33,7 @@ fun OpenWeatherResponse.toWeatherViewData(): WeatherViewData {
         degrees = mainData.degrees,
         windSpeed = windData.speed,
         humidity = mainData.humidity,
-        iconUrl = ""
+        iconUrl = weatherData.firstOrNull()?.icon ?: ""
     )
 }
 

@@ -23,8 +23,4 @@ class CachedWeatherClient(
 
         return result
     }
-
-    override fun getIconUrl(icon: String): String {
-        return delegate.getIconUrl(icon)
-    }
 }
