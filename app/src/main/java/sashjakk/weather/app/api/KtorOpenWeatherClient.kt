@@ -37,12 +37,14 @@ class KtorOpenWeatherClient(
     }
 
     private fun injectIconUrl(weatherData: WeatherData): WeatherData {
-        val url = Uri.parse(iconUrl)
+        /*val url = Uri.parse(iconUrl)
             .buildUpon()
             .appendPath("img")
             .appendPath("wn")
             .appendPath("${weatherData.icon}@2x.png")
-            .toString()
+            .toString()*/
+
+        val url = "https://raw.githubusercontent.com/isneezy/open-weather-icons/master/src/svg/${weatherData.icon}.svg"
 
         return weatherData.copy(icon = url)
     }

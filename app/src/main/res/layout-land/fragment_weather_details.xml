@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAppearance="@style/DetailAccent.Big"
-        app:layout_constraintEnd_toEndOf="@id/rightGuide"
+        app:layout_constraintEnd_toEndOf="@id/centerGuide"
         app:layout_constraintStart_toStartOf="@id/leftGuide"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:text="City name" />
@@ -42,25 +42,25 @@
         android:id="@+id/degrees"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
         android:textAppearance="@style/DetailAccent.Huge"
-        app:layout_constraintEnd_toEndOf="@id/rightGuide"
-        app:layout_constraintStart_toStartOf="@id/leftGuide"
-        app:layout_constraintTop_toBottomOf="@id/weatherIcon"
+        app:layout_constraintBottom_toTopOf="@id/windSpeed"
+        app:layout_constraintEnd_toEndOf="@id/humidityTitle"
+        app:layout_constraintStart_toStartOf="@id/windTitle"
+        app:layout_constraintTop_toBottomOf="@id/date"
         tools:text="20˚" />
 
     <ImageView
         android:id="@+id/weatherIcon"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
         android:scaleType="fitCenter"
         android:tint="@android:color/primary_text_dark"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintWidth_percent="0.50"
-        app:layout_constraintHeight_percent="0.20"
+        app:layout_constraintBottom_toBottomOf="@id/bottomGuide"
+        app:layout_constraintEnd_toEndOf="@id/rightGuide"
+        app:layout_constraintStart_toStartOf="@id/centerGuide"
+        app:layout_constraintTop_toTopOf="@id/cityName"
         tools:src="@drawable/ic_launcher_background" />
 
     <TextView
@@ -77,11 +77,13 @@
         android:id="@+id/humidityTitle"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:layout_marginRight="4dp"
         android:gravity="center"
         android:text="@string/humidity"
         android:textAppearance="@style/DetailCaption"
         app:layout_constraintBottom_toTopOf="@id/bottomGuide"
-        app:layout_constraintEnd_toEndOf="@id/rightGuide" />
+        app:layout_constraintEnd_toEndOf="@id/centerGuide" />
 
     <TextView
         android:id="@+id/windSpeed"
