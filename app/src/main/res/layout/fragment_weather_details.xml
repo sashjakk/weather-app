@@ -13,26 +13,15 @@
         android:minHeight="?attr/actionBarSize"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintRight_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/toolbarTitle"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/appName"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp" />
-
-    </androidx.appcompat.widget.Toolbar>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/cityName"
         android:textAppearance="@style/DetailAccent.Big"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
@@ -110,6 +99,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:scaleType="fitCenter"
+        android:tint="@android:color/primary_text_dark"
         app:layout_constraintBottom_toTopOf="@id/degrees"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
