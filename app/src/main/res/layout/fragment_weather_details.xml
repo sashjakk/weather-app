@@ -29,7 +29,7 @@
 
     <TextView
         android:id="@+id/cityName"
-        style="@style/TextAppearance.AppCompat.Display1"
+        android:textAppearance="@style/DetailAccent.Big"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
@@ -40,7 +40,7 @@
 
     <TextView
         android:id="@+id/date"
-        style="@style/TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/DetailCaption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@id/cityName"
@@ -50,7 +50,7 @@
 
     <TextView
         android:id="@+id/windSpeed"
-        style="@style/TextAppearance.AppCompat.Headline"
+        android:textAppearance="@style/DetailAccent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -61,7 +61,7 @@
 
     <TextView
         android:id="@+id/windTitle"
-        style="@style/TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/DetailCaption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"
@@ -73,7 +73,7 @@
 
     <TextView
         android:id="@+id/humidity"
-        style="@style/TextAppearance.AppCompat.Headline"
+        android:textAppearance="@style/DetailAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="50dp"
@@ -84,7 +84,7 @@
 
     <TextView
         android:id="@+id/humidityTitle"
-        style="@style/TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/DetailCaption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"
@@ -96,19 +96,19 @@
 
     <TextView
         android:id="@+id/degrees"
-        style="@style/TextAppearance.AppCompat.Display1"
+        android:textAppearance="@style/DetailAccent.Huge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toTopOf="@id/windSpeed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="20 C" />
+        tools:text="20˚" />
 
     <ImageView
         android:id="@+id/weatherIcon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@id/degrees"
         app:layout_constraintEnd_toEndOf="parent"

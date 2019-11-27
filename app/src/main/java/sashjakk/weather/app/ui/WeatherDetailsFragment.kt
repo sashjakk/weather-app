@@ -75,7 +75,7 @@ class WeatherDetailsFragment : Fragment() {
         date.text = data.date
         windSpeed.text = "${data.windSpeed} m/s"
         humidity.text = "${data.humidity} %"
-        degrees.text = "${data.degrees} C"
+        degrees.text = "${data.degrees.toInt()}˚C"
 
         GlideApp.with(this)
             .load(data.iconUrl)

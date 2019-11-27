@@ -4,6 +4,30 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+    </style>
+
+    <style name="TextBase">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="DetailAccent" parent="DetailAccent.Big">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DetailAccent.Big" parent="DetailAccent">
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="DetailAccent.Huge" parent="DetailAccent">
+        <item name="android:textSize">56sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="DetailCaption" parent="TextBase">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@android:color/secondary_text_dark</item>
     </style>
 
 </resources>
