@@ -18,8 +18,7 @@ class App : Application() {
 
             properties(
                 mapOf(
-                    "OPENAPI_BASE_URL" to "https://api.openweathermap.org/data/2.5",
-                    "OPENAPI_ICON_URL" to "https://openweathermap.org"
+                    "OPENAPI_BASE_URL" to "https://api.openweathermap.org/data/2.5"
                 )
             )
         }

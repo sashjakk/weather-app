@@ -55,7 +55,6 @@ val apiModule = module {
             get(),
             KtorOpenWeatherClient(
                 getProperty("OPENAPI_BASE_URL"),
-                getProperty("OPENAPI_ICON_URL"),
                 get()
             )
         )

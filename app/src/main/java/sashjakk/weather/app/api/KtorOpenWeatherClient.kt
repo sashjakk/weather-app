@@ -9,7 +9,6 @@ import sashjakk.weather.app.tools.Success
 
 class KtorOpenWeatherClient(
     baseUrl: String,
-    private val iconUrl: String,
     private val httpClient: HttpClient
 ) : OpenWeatherClient {
 
@@ -37,15 +36,7 @@ class KtorOpenWeatherClient(
     }
 
     private fun injectIconUrl(weatherData: WeatherData): WeatherData {
-        /*val url = Uri.parse(iconUrl)
-            .buildUpon()
-            .appendPath("img")
-            .appendPath("wn")
-            .appendPath("${weatherData.icon}@2x.png")
-            .toString()*/
-
-        val url = "https://raw.githubusercontent.com/isneezy/open-weather-icons/master/src/svg/${weatherData.icon}.svg"
-
+        val url = "https://raw.githubusercontent.com/sashjakk/weather-app-icons/master/icons/${weatherData.icon}.svg"
         return weatherData.copy(icon = url)
     }
 }
