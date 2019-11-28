@@ -1,4 +1,4 @@
-package sashjakk.weather.app.ui
+package sashjakk.weather.app.ui.details
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.os.Bundle
@@ -18,7 +18,10 @@ import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import sashjakk.weather.app.GlideApp
 import sashjakk.weather.app.R
+import sashjakk.weather.app.extensions.onRefresh
+import sashjakk.weather.app.extensions.toast
 import sashjakk.weather.app.tools.*
+import sashjakk.weather.app.ui.common.WeatherViewData
 
 @ExperimentalCoroutinesApi
 class WeatherDetailsFragment : Fragment() {

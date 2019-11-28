@@ -10,21 +10,22 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.features.json.GsonSerializer
 import io.ktor.client.features.json.JsonFeature
-import io.objectbox.android.AndroidObjectBrowser
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import sashjakk.weather.app.api.*
+import sashjakk.weather.app.api.KtorClient
+import sashjakk.weather.app.api.OWClient
+import sashjakk.weather.app.api.PersistentClient
 import sashjakk.weather.app.connectivity.ConnectivityProvider
 import sashjakk.weather.app.connectivity.DefaultConnectivityProvider
-import sashjakk.weather.app.db.DatabaseClient
+import sashjakk.weather.app.db.DatabaseDao
 import sashjakk.weather.app.db.MyObjectBox
-import sashjakk.weather.app.db.ObjectBoxDatabaseClient
+import sashjakk.weather.app.db.ObjectBoxDao
 import sashjakk.weather.app.db.WeatherEntity
 import sashjakk.weather.app.location.DefaultLocationProvider
 import sashjakk.weather.app.location.LocationProvider
 import sashjakk.weather.app.tools.queryInjector
-import sashjakk.weather.app.ui.WeatherDetailsViewModel
-import sashjakk.weather.app.ui.WeatherListViewModel
+import sashjakk.weather.app.ui.details.WeatherDetailsViewModel
+import sashjakk.weather.app.ui.list.WeatherListViewModel
 
 val uiModule = module {
     viewModel { WeatherDetailsViewModel(get(), get()) }
@@ -38,29 +39,20 @@ val connectivityModule = module {
 
 val dbModule = module {
     single {
-        val store = MyObjectBox.builder()
+        MyObjectBox.builder()
             .androidContext(get() as Context)
             .build()
-
-        if (BuildConfig.DEBUG) {
-            AndroidObjectBrowser(store).start(get() as Context)
-        }
-
-        store
     }
 
-    single<DatabaseClient<WeatherEntity>> { ObjectBoxDatabaseClient(get()) }
+    single<DatabaseDao<WeatherEntity>> { ObjectBoxDao(get()) }
 }
 
 val apiModule = module {
-    single<OpenWeatherClient> {
-        PersistentWeatherClient(
+    single<OWClient> {
+        PersistentClient(
             get(),
             get(),
-            KtorOpenWeatherClient(
-                getProperty("OPENAPI_BASE_URL"),
-                get()
-            )
+            KtorClient(get())
         )
     }
 }

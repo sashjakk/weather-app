@@ -1,20 +1,21 @@
 package sashjakk.weather.app.api
 
+import sashjakk.weather.app.adapters.toOpenWeatherResponse
 import sashjakk.weather.app.connectivity.ConnectivityProvider
-import sashjakk.weather.app.db.DatabaseClient
+import sashjakk.weather.app.db.DatabaseDao
 import sashjakk.weather.app.db.WeatherEntity
-import sashjakk.weather.app.db.toWeatherEntity
+import sashjakk.weather.app.adapters.toWeatherEntity
 import sashjakk.weather.app.tools.Failure
 import sashjakk.weather.app.tools.Result
 import sashjakk.weather.app.tools.Success
 
-class PersistentWeatherClient(
+class PersistentClient(
     private val connectivity: ConnectivityProvider,
-    private val database: DatabaseClient<WeatherEntity>,
-    private val client: OpenWeatherClient
-) : OpenWeatherClient {
+    private val database: DatabaseDao<WeatherEntity>,
+    private val client: OWClient
+) : OWClient {
 
-    override suspend fun getWeatherData(cityName: String): Result<OpenWeatherResponse> {
+    override suspend fun getWeatherData(cityName: String): Result<OWResponse> {
         if (connectivity.isConnected) {
             val result = client.getWeatherData(cityName)
 
@@ -37,7 +38,7 @@ class PersistentWeatherClient(
     override suspend fun getWeatherData(
         latitude: Double,
         longitude: Double
-    ): Result<OpenWeatherResponse> {
+    ): Result<OWResponse> {
         if (connectivity.isConnected) {
             val result = client.getWeatherData(latitude, longitude)
 

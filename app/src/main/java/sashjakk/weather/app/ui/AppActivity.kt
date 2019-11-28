@@ -1,4 +1,4 @@
-package sashjakk.weather.app
+package sashjakk.weather.app.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

@@ -7,16 +7,22 @@ import sashjakk.weather.app.tools.Failure
 import sashjakk.weather.app.tools.Result
 import sashjakk.weather.app.tools.Success
 
-class KtorOpenWeatherClient(
-    baseUrl: String,
+private const val openApiBaseUrl =
+    "https://api.openweathermap.org/data/2.5/weather"
+
+private const val iconUrlBase =
+    "https://raw.githubusercontent.com/sashjakk/weather-app-icons/master/icons"
+
+class KtorClient(
     private val httpClient: HttpClient
-) : OpenWeatherClient {
+) : OWClient {
 
-    private val urlBuilder = Uri.parse(baseUrl)
+    private val urlBuilder = Uri.parse(openApiBaseUrl)
 
-    override suspend fun getWeatherData(cityName: String): Result<OpenWeatherResponse> {
+    override suspend fun getWeatherData(
+        cityName: String
+    ): Result<OWResponse> {
         val url = urlBuilder.buildUpon()
-            .appendPath("weather")
             .appendQueryParameter("q", cityName)
             .toString()
 
@@ -26,9 +32,8 @@ class KtorOpenWeatherClient(
     override suspend fun getWeatherData(
         latitude: Double,
         longitude: Double
-    ): Result<OpenWeatherResponse> {
+    ): Result<OWResponse> {
         val url = urlBuilder.buildUpon()
-            .appendPath("weather")
             .appendQueryParameter("lat", latitude.toString())
             .appendQueryParameter("lon", longitude.toString())
             .toString()
@@ -36,9 +41,9 @@ class KtorOpenWeatherClient(
         return requestData(url)
     }
 
-    private suspend fun requestData(url: String): Result<OpenWeatherResponse> {
+    private suspend fun requestData(url: String): Result<OWResponse> {
         return try {
-            val response = httpClient.get<OpenWeatherResponse>(url)
+            val response = httpClient.get<OWResponse>(url)
             val withIconUrls = response.weatherData
                 .map(::injectIconUrl)
 
@@ -48,8 +53,7 @@ class KtorOpenWeatherClient(
         }
     }
 
-    private fun injectIconUrl(weatherData: WeatherData): WeatherData {
-        val url = "https://raw.githubusercontent.com/sashjakk/weather-app-icons/master/icons/${weatherData.icon}.svg"
-        return weatherData.copy(icon = url)
+    private fun injectIconUrl(weather: Weather): Weather {
+        return weather.copy(icon = "$iconUrlBase/${weather.icon}.svg")
     }
 }

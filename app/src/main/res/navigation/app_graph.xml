@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/weather_details"
-        android:name="sashjakk.weather.app.ui.WeatherDetailsFragment"
+        android:name="sashjakk.weather.app.ui.details.WeatherDetailsFragment"
         tools:layout="@layout/fragment_weather_details">
 
         <argument
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/weather_list"
-        android:name="sashjakk.weather.app.ui.WeatherListFragment"
+        android:name="sashjakk.weather.app.ui.list.WeatherListFragment"
         tools:layout="@layout/fragment_weather_list">
 
         <action

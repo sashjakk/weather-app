@@ -2,7 +2,6 @@ package sashjakk.weather.app.db
 
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
-import sashjakk.weather.app.api.OpenWeatherResponse
 
 @Entity
 data class WeatherEntity(
@@ -17,18 +16,7 @@ data class WeatherEntity(
     @Id var id: Long = 0
 )
 
-fun OpenWeatherResponse.toWeatherEntity() = WeatherEntity(
-    city = cityName,
-    date = date,
-    degrees = mainData.degrees,
-    windSpeed = windData.speed,
-    humidity = mainData.humidity,
-    iconUrl = weatherData.firstOrNull()?.icon ?: "",
-    latitude = coordinates.latitude,
-    longitude = coordinates.longitude
-)
-
-interface DatabaseClient<T> {
+interface DatabaseDao<T> {
     suspend fun save(item: T): T
     suspend fun getMatchingBy(item: T): T?
     suspend fun getAll(): List<T>

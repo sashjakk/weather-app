@@ -6,9 +6,9 @@ import io.objectbox.kotlin.query
 
 private const val COORDINATES_PRECISION = 0.01
 
-class ObjectBoxDatabaseClient(
+class ObjectBoxDao(
     boxStore: BoxStore
-) : DatabaseClient<WeatherEntity> {
+) : DatabaseDao<WeatherEntity> {
     private val box = boxStore.boxFor<WeatherEntity>()
 
     override suspend fun save(item: WeatherEntity): WeatherEntity {
