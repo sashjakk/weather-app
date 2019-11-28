@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 import sashjakk.weather.app.api.OpenWeatherClient
 import sashjakk.weather.app.api.OpenWeatherResponse
 import sashjakk.weather.app.location.LocationProvider
-import sashjakk.weather.app.location.toPair
 import sashjakk.weather.app.tools.Failure
 import sashjakk.weather.app.tools.Result
 import sashjakk.weather.app.tools.Success
@@ -77,31 +76,21 @@ class WeatherDetailsViewModel(
         }
     }
 
-    fun fetchWeatherData() {
-        viewModelScope.launch {
-            val (latitude, longitude) = locationProvider.getLastKnownLocation(GPS_PROVIDER)?.toPair()
-                ?: run {
-                    location.send(Failure("No location data available"))
-                    return@launch
-                }
-
-            location.send(
-                apiClient.getWeatherData(latitude, longitude)
-            )
-        }
-    }
-
     fun fetchWeatherData(city: String? = null) {
         viewModelScope.launch {
-            val target = city
+            if (!city.isNullOrBlank()) {
+                location.send(apiClient.getWeatherData(city))
+                return@launch
+            }
+
+            val (latitude, longitude) = locationProvider.getLastKnownLocation(GPS_PROVIDER)
+                ?.let { it.latitude to it.longitude }
                 ?: run {
                     location.send(Failure("No location data available"))
                     return@launch
                 }
 
-            location.send(
-                apiClient.getWeatherData(target)
-            )
+            location.send(apiClient.getWeatherData(latitude, longitude))
         }
     }
 

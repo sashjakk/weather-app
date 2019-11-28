@@ -49,8 +49,7 @@ class WeatherDetailsFragment : Fragment() {
             handleLocationUpdates()
             handleDataRefresh()
 
-            args.location?.let { viewModel.fetchWeatherData(it) }
-                ?: viewModel.fetchWeatherData()
+            viewModel.fetchWeatherData(args.location)
         }
     }
 

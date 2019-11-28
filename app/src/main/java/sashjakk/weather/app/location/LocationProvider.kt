@@ -11,8 +11,6 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
-fun Location.toPair() = Pair(latitude, longitude)
-
 interface LocationProvider {
     fun observeLocation(
         provider: String,
