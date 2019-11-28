@@ -57,7 +57,7 @@ class WeatherDetailsViewModel(
     private val location = ConflatedBroadcastChannel<Result<OpenWeatherResponse>>()
 
     init {
-        observeLocationChanges()
+//        observeLocationChanges()
     }
 
     val weatherData: LiveData<Result<WeatherViewData>> = liveData {

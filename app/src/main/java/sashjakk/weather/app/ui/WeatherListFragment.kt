@@ -1,7 +1,6 @@
 package sashjakk.weather.app.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
@@ -47,7 +47,8 @@ class WeatherListItemHolder(
 }
 
 class WeatherListItemAdapter(
-    var items: List<WeatherEntity> = mutableListOf()
+    var items: List<WeatherEntity> = mutableListOf(),
+    private val onClick: (WeatherEntity) -> Unit = {}
 ) : Adapter<WeatherListItemHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -62,13 +63,22 @@ class WeatherListItemAdapter(
 
     override fun getItemCount() = items.size
 
-    override fun onBindViewHolder(holder: WeatherListItemHolder, position: Int) =
+    override fun onBindViewHolder(holder: WeatherListItemHolder, position: Int) {
         holder.bind(items[position])
+        holder.itemView.setOnClickListener { onClick(items[position]) }
+    }
 }
 
 class WeatherListFragment : Fragment() {
 
-    private val adapter = WeatherListItemAdapter()
+    private val clicker: (WeatherEntity) -> Unit = {
+        val action = WeatherListFragmentDirections
+            .listToDetails(LocationOfInterest(it.latitude, it.longitude))
+
+        findNavController().navigate(action)
+    }
+
+    private val adapter = WeatherListItemAdapter(onClick = clicker)
 
     private val viewModel by viewModel<WeatherListViewModel>()
 

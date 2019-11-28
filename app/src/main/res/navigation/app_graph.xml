@@ -10,6 +10,12 @@
         android:name="sashjakk.weather.app.ui.WeatherDetailsFragment"
         tools:layout="@layout/fragment_weather_details">
 
+        <argument
+            android:name="location"
+            android:defaultValue="@null"
+            app:argType="sashjakk.weather.app.ui.LocationOfInterest"
+            app:nullable="true" />
+
         <action
             android:id="@+id/details_to_list"
             app:destination="@id/weather_list" />
@@ -17,6 +23,15 @@
 
     <fragment
         android:id="@+id/weather_list"
-        android:name="sashjakk.weather.app.ui.WeatherListFragment" />
+        android:name="sashjakk.weather.app.ui.WeatherListFragment"
+        tools:layout="@layout/fragment_weather_list">
+
+        <action
+            android:id="@+id/list_to_details"
+            app:destination="@id/weather_details"
+            app:popUpTo="@id/weather_details"
+            app:popUpToInclusive="true"/>
+
+    </fragment>
 
 </navigation>
