@@ -14,6 +14,8 @@ import io.objectbox.android.AndroidObjectBrowser
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import sashjakk.weather.app.api.*
+import sashjakk.weather.app.connectivity.ConnectivityProvider
+import sashjakk.weather.app.connectivity.DefaultConnectivityProvider
 import sashjakk.weather.app.db.DatabaseClient
 import sashjakk.weather.app.db.MyObjectBox
 import sashjakk.weather.app.db.ObjectBoxDatabaseClient
@@ -29,8 +31,9 @@ val uiModule = module {
     viewModel { WeatherListViewModel(get()) }
 }
 
-val locationModule = module {
+val connectivityModule = module {
     single<LocationProvider> { DefaultLocationProvider(get()) }
+    single<ConnectivityProvider> { DefaultConnectivityProvider(get()) }
 }
 
 val dbModule = module {
@@ -50,23 +53,13 @@ val dbModule = module {
 }
 
 val apiModule = module {
-    single {
-        CachedWeatherClient(
+    single<OpenWeatherClient> {
+        PersistentWeatherClient(
+            get(),
             get(),
             KtorOpenWeatherClient(
                 getProperty("OPENAPI_BASE_URL"),
                 get()
-            )
-        )
-    }
-
-    single { DatabaseOpenWeatherClient(get()) }
-
-    single<OpenWeatherClient> {
-        PipeWeatherClient(
-            listOf(
-                get<DatabaseOpenWeatherClient>(),
-                get<CachedWeatherClient>()
             )
         )
     }

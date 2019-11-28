@@ -12,8 +12,9 @@ class ObjectBoxDatabaseClient(
     private val box = boxStore.boxFor<WeatherEntity>()
 
     override suspend fun save(item: WeatherEntity): WeatherEntity {
-        val id = box.put(item)
-        return item.copy(id = id)
+        val target = getMatchingBy(item) ?: item
+        val id = box.put(target)
+        return target.copy(id = id)
     }
 
     override suspend fun getMatchingBy(item: WeatherEntity): WeatherEntity? {
