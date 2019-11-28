@@ -23,6 +23,7 @@ android {
     }
 
     defaultConfig {
+        multiDexEnabled true
         applicationId "sashjakk.weather.app"
         minSdkVersion 16
         targetSdkVersion 29
@@ -35,6 +36,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            testCoverageEnabled true
         }
 
         buildTypes.each {
