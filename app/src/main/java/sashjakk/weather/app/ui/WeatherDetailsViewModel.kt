@@ -48,15 +48,32 @@ class WeatherDetailsViewModel(
 ) : ViewModel() {
 
     private val location = ConflatedBroadcastChannel<Result<OpenWeatherResponse>>()
+    private val emptyViewData = Success(
+        WeatherViewData(
+            city = "X",
+            date = "X",
+            degrees = 0.0f,
+            windSpeed = 0.0f,
+            humidity = 0.0f,
+            iconUrl = "https://raw.githubusercontent.com/sashjakk/weather-app-icons/master/icons/50n.svg"
+        )
+    )
 
     val weatherData: LiveData<Result<WeatherViewData>> = liveData {
         location.consumeEach {
-            val viewData = when (it) {
-                is Success -> Success(it.value.toWeatherViewData())
-                is Failure -> Failure<WeatherViewData>(it.error)
-            }
+            when (it) {
+                is Success -> {
+                    val success: Result<WeatherViewData> = Success(it.value.toWeatherViewData())
+                    emit(success)
+                }
 
-            emit(viewData)
+                is Failure -> {
+                    val fail = Failure<WeatherViewData>(it.error)
+
+                    emit(fail)
+                    emit(emptyViewData)
+                }
+            }
         }
     }
 
