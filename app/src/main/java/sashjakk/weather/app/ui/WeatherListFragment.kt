@@ -95,6 +95,15 @@ class WeatherListFragment : Fragment() {
                 adapter.items = it
                 adapter.notifyDataSetChanged()
             }
+
+        searchButton.setOnClickListener {
+            val cityQuery = searchQuery.text.toString()
+
+            val direction = WeatherListFragmentDirections
+                .listToDetails(cityQuery)
+
+            findNavController().navigate(direction)
+        }
     }
 
     private fun setupWeatherList() {
