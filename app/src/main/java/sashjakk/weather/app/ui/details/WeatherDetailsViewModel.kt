@@ -8,6 +8,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import sashjakk.weather.app.adapters.toWeatherViewData
 import sashjakk.weather.app.api.OWClient
@@ -52,15 +55,10 @@ class WeatherDetailsViewModel(
                 return@launch
             }
 
-            val (latitude, longitude) = locationProvider.getLastKnownLocation(GPS_PROVIDER)
-                ?.let { it.latitude to it.longitude }
-                ?: run {
-                    location.send(Failure("No location data available"))
-                    return@launch
-                }
-
-            location.send(apiClient.getWeatherData(latitude, longitude))
+            locationProvider.getLocation(GPS_PROVIDER, 0, 0f)
+                .take(1)
+                .map { apiClient.getWeatherData(it.latitude, it.longitude) }
+                .collect(location::send)
         }
     }
-
 }
