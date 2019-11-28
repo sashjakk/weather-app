@@ -73,7 +73,7 @@ class WeatherListFragment : Fragment() {
 
     private val clicker: (WeatherEntity) -> Unit = {
         val action = WeatherListFragmentDirections
-            .listToDetails(LocationOfInterest(it.latitude, it.longitude))
+            .listToDetails(it.city)
 
         findNavController().navigate(action)
     }

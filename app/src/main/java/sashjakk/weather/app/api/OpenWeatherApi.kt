@@ -41,5 +41,6 @@ data class Coordinates(
 )
 
 interface OpenWeatherClient {
+    suspend fun getWeatherData(cityName: String): Result<OpenWeatherResponse>
     suspend fun getWeatherData(latitude: Double, longitude: Double): Result<OpenWeatherResponse>
 }

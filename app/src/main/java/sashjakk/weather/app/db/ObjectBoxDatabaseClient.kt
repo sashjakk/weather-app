@@ -19,17 +19,25 @@ class ObjectBoxDatabaseClient(
 
     override suspend fun getMatchingBy(item: WeatherEntity): WeatherEntity? {
         val query = box.query {
-            between(
-                WeatherEntity_.latitude,
-                item.latitude - COORDINATES_PRECISION,
-                item.latitude + COORDINATES_PRECISION
-            )
-
-            between(
-                WeatherEntity_.longitude,
-                item.longitude - COORDINATES_PRECISION,
-                item.longitude + COORDINATES_PRECISION
-            )
+            if (item.city.isNotEmpty()) {
+                equal(WeatherEntity_.city, item.city)
+            }
+//
+//            if (item.latitude != 0.0) {
+//                between(
+//                    WeatherEntity_.latitude,
+//                    item.latitude - COORDINATES_PRECISION,
+//                    item.latitude + COORDINATES_PRECISION
+//                )
+//            }
+//
+//            if (item.longitude != 0.0) {
+//                between(
+//                    WeatherEntity_.longitude,
+//                    item.longitude - COORDINATES_PRECISION,
+//                    item.longitude + COORDINATES_PRECISION
+//                )
+//            }
         }
 
         return query.findFirst()

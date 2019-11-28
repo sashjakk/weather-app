@@ -14,6 +14,26 @@ class PersistentWeatherClient(
     private val client: OpenWeatherClient
 ) : OpenWeatherClient {
 
+    override suspend fun getWeatherData(cityName: String): Result<OpenWeatherResponse> {
+        if (connectivity.isConnected) {
+            val result = client.getWeatherData(cityName)
+
+            if (result is Success) {
+                database.save(result.value.toWeatherEntity())
+                return result
+            }
+        }
+
+        val criteria = WeatherEntity(
+            city = cityName
+        )
+
+        val result = database.getMatchingBy(criteria)
+            ?: return Failure("Not found in database")
+
+        return Success(result.toOpenWeatherResponse())
+    }
+
     override suspend fun getWeatherData(
         latitude: Double,
         longitude: Double

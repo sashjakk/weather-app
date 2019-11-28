@@ -2,7 +2,6 @@ package sashjakk.weather.app.ui
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_weather_details.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
@@ -22,16 +20,10 @@ import sashjakk.weather.app.GlideApp
 import sashjakk.weather.app.R
 import sashjakk.weather.app.tools.*
 
-@Parcelize
-data class LocationOfInterest(val latitude: Double, val longitude: Double) : Parcelable
-
-fun LocationOfInterest.toPair() = Pair(latitude, longitude)
-
 @ExperimentalCoroutinesApi
 class WeatherDetailsFragment : Fragment() {
 
     private val args: WeatherDetailsFragmentArgs by navArgs()
-    private val location by lazy { args.location?.toPair() }
 
     private val viewModel by viewModel<WeatherDetailsViewModel>()
 
@@ -57,7 +49,8 @@ class WeatherDetailsFragment : Fragment() {
             handleLocationUpdates()
             handleDataRefresh()
 
-            viewModel.fetchWeatherData(location)
+            args.location?.let { viewModel.fetchWeatherData(it) }
+                ?: viewModel.fetchWeatherData()
         }
     }
 
@@ -88,7 +81,7 @@ class WeatherDetailsFragment : Fragment() {
 
     private fun handleDataRefresh() {
         refresher.onRefresh
-            .onEach { viewModel.fetchWeatherData(location) }
+            .onEach { viewModel.fetchWeatherData(args.location) }
             .launchIn(lifecycleScope)
     }
 
