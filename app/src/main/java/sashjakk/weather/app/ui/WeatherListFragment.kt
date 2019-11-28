@@ -19,6 +19,7 @@ import sashjakk.weather.app.GlideApp
 import sashjakk.weather.app.R
 import sashjakk.weather.app.db.DatabaseClient
 import sashjakk.weather.app.db.WeatherEntity
+import sashjakk.weather.app.tools.MarginItemDecoration
 
 class WeatherListViewModel(
     private val database: DatabaseClient<WeatherEntity>
@@ -37,7 +38,6 @@ class WeatherListItemHolder(
     fun bind(item: WeatherEntity) {
         with(view) {
             thumbCity.text = item.city
-            thumbDegrees.text = item.degrees.toString()
 
             GlideApp.with(view)
                 .load(item.iconUrl)
@@ -82,7 +82,6 @@ class WeatherListFragment : Fragment() {
 
         viewModel.locations
             .observe(viewLifecycleOwner) {
-                Log.d("HEYO", "was here")
                 adapter.items = it
                 adapter.notifyDataSetChanged()
             }
@@ -94,6 +93,7 @@ class WeatherListFragment : Fragment() {
         weatherList.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = this@WeatherListFragment.adapter
+            addItemDecoration(MarginItemDecoration(8))
         }
     }
 }

@@ -33,4 +33,15 @@
         <item name="android:textColor">@android:color/secondary_text_dark</item>
     </style>
 
+    <style name="ListItem" parent="TextBase">
+        <item name="android:textColor">@android:color/primary_text_dark</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ListItem.Caption" parent="TextBase">
+        <item name="android:textColor">@android:color/secondary_text_dark</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>
