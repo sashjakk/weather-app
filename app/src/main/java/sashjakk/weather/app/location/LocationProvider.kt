@@ -11,21 +11,29 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
+fun Location.toPair() = Pair(latitude, longitude)
+
 interface LocationProvider {
     fun observeLocation(
         provider: String,
         minInterval: Long,
         minDistance: Float
     ): Flow<Location>
+
+    fun getLastKnownLocation(provider: String): Location?
 }
 
+@SuppressLint("MissingPermission")
 class DefaultLocationProvider(context: Context) : LocationProvider {
 
     private val manager by lazy {
         checkNotNull(context.getSystemService<LocationManager>())
     }
 
-    @SuppressLint("MissingPermission")
+    override fun getLastKnownLocation(provider: String): Location? {
+        return manager.getLastKnownLocation(provider)
+    }
+
     override fun observeLocation(
         provider: String,
         minInterval: Long,

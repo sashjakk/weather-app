@@ -10,15 +10,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_weather_details.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import sashjakk.weather.app.GlideApp
 import sashjakk.weather.app.R
-import sashjakk.weather.app.tools.Failure
-import sashjakk.weather.app.tools.Success
-import sashjakk.weather.app.tools.requestPermissionAsync
-import sashjakk.weather.app.tools.toast
+import sashjakk.weather.app.tools.*
 
+@ExperimentalCoroutinesApi
 class WeatherDetailsFragment : Fragment() {
 
     private val viewModel by viewModel<WeatherDetailsViewModel>()
@@ -43,6 +44,9 @@ class WeatherDetailsFragment : Fragment() {
             }
 
             handleLocationUpdates()
+            handleDataRefresh()
+
+            viewModel.fetchWeatherData()
         }
     }
 
@@ -61,6 +65,8 @@ class WeatherDetailsFragment : Fragment() {
     private fun handleLocationUpdates() {
         viewModel.weatherData
             .observe(viewLifecycleOwner) {
+                refresher.isRefreshing = false
+
                 val context = requireContext()
                 when (it) {
                     is Success -> bindWeatherData(it.value)
@@ -69,6 +75,11 @@ class WeatherDetailsFragment : Fragment() {
             }
     }
 
+    private fun handleDataRefresh() {
+        refresher.onRefresh
+            .onEach { viewModel.fetchWeatherData() }
+            .launchIn(lifecycleScope)
+    }
 
     private fun bindWeatherData(data: WeatherViewData) {
         cityName.text = data.city
