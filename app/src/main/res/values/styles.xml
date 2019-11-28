@@ -4,6 +4,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
         <item name="android:windowBackground">@color/background</item>
         <item name="android:statusBarColor" tools:targetApi="LOLLIPOP">@color/background</item>
         <item name="android:windowLightStatusBar" tools:targetApi="M">false</item>
@@ -42,6 +43,11 @@
     <style name="ListItem.Caption" parent="TextBase">
         <item name="android:textColor">@android:color/secondary_text_dark</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="SearchBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
     </style>
 
 </resources>
