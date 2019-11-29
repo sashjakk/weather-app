@@ -60,6 +60,8 @@ val apiModule = module {
 val httpModule = module {
     single {
         HttpClient(OkHttp) {
+            expectSuccess = true
+
             install(JsonFeature) {
                 serializer = GsonSerializer()
             }

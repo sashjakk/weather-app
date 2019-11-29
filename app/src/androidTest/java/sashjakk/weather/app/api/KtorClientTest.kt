@@ -9,6 +9,7 @@ import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.request.HttpRequestData
 import io.ktor.client.request.HttpResponseData
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import junit.framework.Assert.fail
 import kotlinx.coroutines.runBlocking
@@ -70,7 +71,7 @@ class KtorClientTest {
         when (result) {
             is Success -> fail("Wrong response type")
             is Failure -> {
-                assertThat(result.error.message, notNullValue())
+                assertThat(result.error.message, containsString("Not Found"))
             }
         }
     }
@@ -98,6 +99,7 @@ class KtorClientTest {
 
                 else -> respond(
                     content = notFound,
+                    status = HttpStatusCode.NotFound,
                     headers = headersOf(
                         "Content-Type",
                         ContentType.Application.Json.toString()
@@ -107,6 +109,7 @@ class KtorClientTest {
         }
 
         val httpClient = HttpClient(MockEngine) {
+            expectSuccess = true
             install(JsonFeature) { serializer = GsonSerializer() }
             engine { addHandler(mockResponseHandler) }
         }
