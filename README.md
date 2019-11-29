@@ -23,6 +23,6 @@ echo openWeatherApiKey=<YOUR-KEY> > app/gradle.properties
 
 ## Screenshots
 
-![Details](https://raw.githubusercontent.com/sashjakk/weather-app/images/details.png)
-![Details in Landscape](https://raw.githubusercontent.com/sashjakk/weather-app/images/details-landscape.png)
-![Search and List](https://raw.githubusercontent.com/sashjakk/weather-app/images/search-and-list.png)
+![Details](./images/details.png)
+![Details in Landscape](./images/details-landscape.png)
+![Search and List](./images/search-and-list.png)
