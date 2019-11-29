@@ -46,6 +46,11 @@ android {
             it.buildConfigField 'String', 'OPENWEATHER_API_KEY', "\"${openWeatherApiKey}\""
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
 }
 
 dependencies {
