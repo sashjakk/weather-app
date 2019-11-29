@@ -9,7 +9,7 @@ import java.util.*
 fun WeatherEntity.toOpenWeatherResponse() =
     OWResponse(
         cityName = city,
-        coordinates = Coordinates(latitude, longitude),
+        coordinates = Coordinates(latitude!!, longitude!!),
         main = Main(degrees, humidity),
         wind = Wind(windSpeed),
         weatherData = listOf(Weather(iconUrl)),

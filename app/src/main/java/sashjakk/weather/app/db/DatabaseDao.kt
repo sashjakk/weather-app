@@ -11,8 +11,8 @@ data class WeatherEntity(
     var windSpeed: Float = 0f,
     var humidity: Float = 0f,
     var iconUrl: String = "",
-    var latitude: Double = 0.0,
-    var longitude: Double = 0.0,
+    var latitude: Double? = null,
+    var longitude: Double? = null,
     @Id var id: Long = 0
 )
 

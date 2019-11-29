@@ -32,19 +32,19 @@ class ObjectBoxDao(
                 equal(WeatherEntity_.city, item.city)
             }
 
-            if (item.latitude != 0.0) {
+            item.latitude?.let {
                 between(
                     WeatherEntity_.latitude,
-                    item.latitude - COORDINATES_PRECISION,
-                    item.latitude + COORDINATES_PRECISION
+                    it - COORDINATES_PRECISION,
+                    it + COORDINATES_PRECISION
                 )
             }
 
-            if (item.longitude != 0.0) {
+            item.longitude?.let {
                 between(
                     WeatherEntity_.longitude,
-                    item.longitude - COORDINATES_PRECISION,
-                    item.longitude + COORDINATES_PRECISION
+                    it - COORDINATES_PRECISION,
+                    it + COORDINATES_PRECISION
                 )
             }
         }
